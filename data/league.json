@@ -1,0 +1,19 @@
+{
+  "poolName": "MLB HR Pool",
+  "teams": [
+    {
+      "name": "Team 1",
+      "players": [
+        { "name": "", "id": "" },
+        { "name": "", "id": "" }
+      ]
+    },
+    {
+      "name": "Team 2",
+      "players": [
+        { "name": "", "id": "" },
+        { "name": "", "id": "" }
+      ]
+    }
+  ]
+}
