@@ -20,7 +20,15 @@ if (!fs.existsSync(DATA_FILE)) {
     JSON.stringify(
       {
         poolName: 'MLB HR Pool',
-        teams: []
+        teams: [
+          {
+            name: 'Team 1',
+            players: [
+              { name: '', id: '' },
+              { name: '', id: '' }
+            ]
+          }
+        ]
       },
       null,
       2
@@ -32,7 +40,18 @@ function readLeague() {
   try {
     return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
   } catch (err) {
-    return { poolName: 'MLB HR Pool', teams: [] };
+    return {
+      poolName: 'MLB HR Pool',
+      teams: [
+        {
+          name: 'Team 1',
+          players: [
+            { name: '', id: '' },
+            { name: '', id: '' }
+          ]
+        }
+      ]
+    };
   }
 }
 
@@ -99,21 +118,6 @@ const server = http.createServer((req, res) => {
     return sendJson(res, 200, readLeague());
   }
 
-  if (pathname === '/api/add-player' && req.method === 'POST') {
-    return collectBody(req, body => {
-      const league = readLeague();
-
-      if (!Array.isArray(league.players)) {
-        league.players = [];
-      }
-
-      league.players.push(body);
-      writeLeague(league);
-
-      sendText(res, 200, 'OK');
-    });
-  }
-
   if (pathname === '/api/admin/league' && req.method === 'GET') {
     if (query.key !== COMMISSIONER_KEY) {
       return sendText(res, 403, 'Forbidden');
@@ -134,7 +138,7 @@ const server = http.createServer((req, res) => {
       };
 
       writeLeague(updatedLeague);
-      sendText(res, 200, 'Saved');
+      return sendText(res, 200, 'Saved');
     });
   }
 
